@@ -23,6 +23,8 @@ patterns = [
 ungrmdf = pd.DataFrame(columns=['TEXTOS', 'y'])
 bigrmdf = pd.DataFrame(columns=['TEXTOS', 'y'])
 
+ungrmdftag = pd.DataFrame(columns=['TEXTOS', 'y'])
+
 # Tokenize words from each tweet
 for index, rows in df.iterrows() :
     # Preprocessing of mentions, links and hashtags
@@ -32,6 +34,8 @@ for index, rows in df.iterrows() :
 
     ungrmdf = ungrmdf.append(rows, ignore_index=True)
     bigrmdf = bigrmdf.append({'TEXTOS' : list(nltk.bigrams(rows['TEXTOS'])), 'y' : rows['y']}, ignore_index=True)
+    
+    ungrmdftag = ungrmdftag.append({'TEXTOS' : list(nltk.pos_tag(rows['TEXTOS'])), 'y' : rows['y']}, ignore_index=True)
 
     # Prints last tokenized items/grams
     if index > 1700 :
@@ -39,5 +43,8 @@ for index, rows in df.iterrows() :
         print(ungrmdf.loc[index])
         print("Bi:")
         print(bigrmdf.loc[index])
+        print("Tag:")
+        print(ungrmdftag.loc[index])
 
 print ("\n")
+
