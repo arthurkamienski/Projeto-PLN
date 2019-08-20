@@ -3,6 +3,8 @@ import re
 import nltk
 import pandas as pd
 
+from sklearn.naive_bayes import GaussianNB
+
 # Sets csv file path
 dirname = os.path.abspath(os.path.dirname(__file__))
 csv_file = os.path.join(dirname, '..\\datasets\\bullying_twitter_preprocessing.csv')
@@ -48,3 +50,14 @@ for index, rows in df.iterrows() :
 
 print ("\n")
 
+# Creates a Naive Bayes classifier
+nbc = GaussianNB()
+nbc.fit(ungrmdf['TEXTOS'], ungrmdf['y'])
+
+uIn = input('Escreva uma frase : ')
+
+while uIn != 'exit' :
+    for pat, sub in patterns:
+        uIn = re.sub(pat, sub, uIn)
+    print(nbc.predict(nltk.word_tokenize(uIn)))
+    uIn = input('Escreva uma frase : ')
